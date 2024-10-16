@@ -18,7 +18,7 @@ public class TestReqres {
                 .then().log().all()
                 .assertThat().statusCode(200)
                 .assertThat().body("per_page", Matchers.equalTo(6))
-                .assertThat().body("page", Matchers.equalTo(1));
+                .assertThat().body("page", Matchers.equalTo(2));
 
 
     }
@@ -47,15 +47,14 @@ public class TestReqres {
 
     @Test
     public void testPutUser() {
-        RestAssured.baseURI = "https://reqres.in/";
-        int userId = 2;
-        String newName = "updatedUser";
 
-        String fname = given().when().get("api/users/" + userId).getBody().jsonPath().get("data.first_name");
-        String lname = given().when().get("api/users/" + userId).getBody().jsonPath().get("data.last_name");
-        String avatar = given().when().get("api/users/" + userId).getBody().jsonPath().get("data.avatar");
-        String email = given().when().get("api/users/" + userId).getBody().jsonPath().get("data.email");
-        System.out.println("nama before = " + fname);
+        int userId = 2;
+        String newName = "Daffa Fawwaz";
+
+        String fname = given().when().get("https://reqres.in/api/users/" + userId).getBody().jsonPath().get("data.first_name");
+        String lname = given().when().get("https://reqres.in/api/users/" + userId).getBody().jsonPath().get("data.last_name");
+        String avatar = given().when().get("https://reqres.in/api/users/" + userId).getBody().jsonPath().get("data.avatar");
+        String email = given().when().get("https://reqres.in/api/users/" + userId).getBody().jsonPath().get("data.email");
 
         HashMap<String, Object> bodyMap = new HashMap<>();
         bodyMap.put("id", userId);
@@ -65,15 +64,13 @@ public class TestReqres {
         bodyMap.put("avatar", avatar);
         JSONObject jsonObject = new JSONObject(bodyMap);
 
-        given().log().all()
+        given()
                 .header("Content-Type", "application/json")
                 .body(jsonObject.toString())
-                .put("/api/users" + userId)
-                .then().log().all()
+                .put("https://reqres.in/api/users/" + userId)
+                .then()
                 .assertThat().statusCode(200)
                 .assertThat().body("first_name", Matchers.equalTo(newName));
-
-
     }
 
 }
